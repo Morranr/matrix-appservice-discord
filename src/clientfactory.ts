@@ -81,7 +81,7 @@ export class DiscordClientFactory {
         //if (userId === null) {
         //    return this.botClient;
         //}
-        if (this.clients.has(userId)) {
+        if (userId !== null && this.clients.has(userId)) {
             log.verbose("Returning cached user client for", userId);
             return this.clients.get(userId) as DiscordClient;
         }
