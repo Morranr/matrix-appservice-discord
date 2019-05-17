@@ -84,7 +84,24 @@ export class DiscordBot {
         this.config = config;
         this.store = store;
         this.sentMessages = [];
-        this.clientFactory = new DiscordClientFactory(store, config.auth);
+        try {
+            const clientFact = new DiscordClientFactory(store, config.auth);
+            const discordIds = await clientFact.store.get_user_discord_ids(userId);
+            const token = await clientFact.store.get_token(discordIds[0]);
+            const client = new DiscordClient({
+                fetchAllMembers: true,
+                messageCacheLifetime: 5,
+                sync: true,
+            });
+            const jsLog = new Log("discord.js-ppt");
+            client.on("debug", (msg) => { jsLog.verbose(msg); });
+            client.on("error", (msg) => { jsLog.error(msg); });
+            client.on("warn", (msg) => { jsLog.warn(msg); });
+            await client.login(token);
+            this.clientFactory = client;
+        } catch (err) {
+            this.clientFactory = new DiscordClientFactory(store, config.auth);
+        }
         this.discordMsgProcessor = new DiscordMessageProcessor(
             new DiscordMessageProcessorOpts(this.config.bridge.domain, this),
         );
