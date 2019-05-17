@@ -77,10 +77,7 @@ export class DiscordClientFactory {
         });
     }
 
-    public async getClient(userId: string | null = null): Promise<DiscordClient> {
-        //if (userId === null) {
-        //    return this.botClient;
-        //}
+    public async getClient(userId: string = 'default'): Promise<DiscordClient> {
         if (userId !== null && this.clients.has(userId)) {
             log.verbose("Returning cached user client for", userId);
             return this.clients.get(userId) as DiscordClient;
