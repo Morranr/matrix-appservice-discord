@@ -64,6 +64,9 @@ export class MatrixEventProcessor {
     }
 
     public StateEventToMessage(event: IMatrixEvent, channel: Discord.TextChannel): string | undefined {
+        //We don't want to bridge these events this way because reasons.
+        return;
+        
         const SUPPORTED_EVENTS = ["m.room.member", "m.room.name", "m.room.topic"];
         if (!SUPPORTED_EVENTS.includes(event.type)) {
             log.verbose(`${event.event_id} ${event.type} is not displayable.`);
