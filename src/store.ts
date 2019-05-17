@@ -175,7 +175,6 @@ export class DiscordStore {
                 `
                 SELECT discord_id
                 FROM user_id_discord_id
-                WHERE user_id = $userId;
                 `
             , {
                 userId,
