@@ -480,6 +480,9 @@ export class MatrixRoomHandler {
     }
 
     public async HandleDiscordCommand(msg: Discord.Message) {
+        //No Discord side commands.
+        return;
+        
         if (!(msg.channel as Discord.TextChannel).guild) {
             await msg.channel.send("**ERROR:** only available for guild channels");
         }
