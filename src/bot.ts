@@ -175,6 +175,8 @@ export class DiscordBot {
         // messages get delayed from discord. We use Bluebird.delay to handle this.
 
         client.on("messageDelete", async (msg: Discord.Message) => {
+            //Don't bother redacting deleting messages.
+            return;
             try {
                 await Bluebird.delay(this.config.limits.discordSendDelay);
                 this.discordMessageQueue[msg.channel.id] = (async () => {
